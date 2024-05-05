@@ -20,16 +20,15 @@ import os
 from .client import SongClient
 
 # update with your API Key
-OMDB_API_KEY = 'c8c5a43'
+client_id = "f8576bd3cccf442d853261c942c0e81f"
+client_secret = "f946df74175c4864a8d0c171c802a4dd"
 
 # do not remove these 2 lines (required for autograder to work)
-if os.getenv('OMDB_API_KEY'):
-    OMDB_API_KEY = os.getenv('OMDB_API_KEY')
 
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-song_client = SongClient(OMDB_API_KEY)
+song_client = SongClient(client_id, client_secret)
 
 from .users.routes import users
 from .songs.routes import songs

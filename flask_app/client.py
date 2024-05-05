@@ -1,31 +1,22 @@
 import requests
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 
 
 class Song(object):
-    def __init__(self, omdb_json, detailed=False):
-        if detailed:
-            self.genres = omdb_json["Genre"]
-            self.director = omdb_json["Director"]
-            self.actors = omdb_json["Actors"]
-            self.plot = omdb_json["Plot"]
-            self.awards = omdb_json["Awards"]
-
-        self.title = omdb_json["Title"]
-        self.year = omdb_json["Year"]
-        self.imdb_id = omdb_json["imdbID"]
-        self.type = "song"
-        self.poster_url = omdb_json["Poster"]
-
+    def __init__(self, track_json):
+        #self.items and this is where track details are stored
+        pass
     def __repr__(self):
         return self.title
 
 
 class SongClient(object):
-    def __init__(self, api_key):
-        self.sess = requests.Session()
-        self.base_url = f"http://www.omdbapi.com/?apikey={api_key}&r=json&type=song&"
+    def __init__(self, id_key, secret_key):
+        self.client = SpotifyClientCredentials(id_key, secret_key)
+        self.sp = spotipy.Spotify(client_credentials_manager=self.client)
 
-    def search(self, search_string):
+    def search(self, search_query):
         """
         Searches the API for the supplied search_string, and returns
         a list of Media objects if the search was successful, or the error response
@@ -33,71 +24,32 @@ class SongClient(object):
 
         Only use this method if the user is using the search bar on the website.
         """
-        search_string = "+".join(search_string.split())
-        page = 1
+        results = self.sp.search(q=search_query, type="track", limit=5)
+        tracks = results["tracks"]["items"]
 
-        search_url = f"s={search_string}&page={page}"
+        if not tracks:
+            raise ValueError(f"No songs found for '{search_query}'.")
 
-        resp = self.sess.get(self.base_url + search_url)
+        songs = [Song(track) for track in tracks]
+        return songs
 
-        if resp.status_code != 200:
-            raise ValueError(
-                "Search request failed; make sure your API key is correct and authorized"
-            )
-
-        data = resp.json()
-
-        if data["Response"] == "False":
-            raise ValueError(f'[ERROR]: Error retrieving results: \'{data["Error"]}\' ')
-
-        search_results_json = data["Search"]
-        remaining_results = int(data["totalResults"])
-
-        result = []
-
-        ## We may have more results than are first displayed
-        while remaining_results != 0:
-            for item_json in search_results_json:
-                result.append(Song(item_json))
-                remaining_results -= len(search_results_json)
-            page += 1
-            search_url = f"s={search_string}&page={page}"
-            resp = self.sess.get(self.base_url + search_url)
-            if resp.status_code != 200 or resp.json()["Response"] == "False":
-                break
-            search_results_json = resp.json()["Search"]
-
-        return result
-
-    def retrieve_song_by_id(self, imdb_id):
-        song_url = self.base_url + f"i={imdb_id}&plot=full"
-
-        resp = self.sess.get(song_url)
-
-        if resp.status_code != 200:
-            raise ValueError(
-                "Search request failed; make sure your API key is correct and authorized"
-            )
-
-        data = resp.json()
-
-        if data["Response"] == "False":
-            raise ValueError(f'[ERROR]: Error retrieving results: \'{data["Error"]}\' ')
-
-        song = song(data, detailed=True)
-
-        return song
+    def get_song_features(self, track_id):
+        """
+        Retrieves detailed audio features for a given track ID.
+        """
+        track_features = self.sp.audio_features(track_id)[0]
+        if track_features is None:
+            raise ValueError(f"No features found for track ID '{track_id}'.")
+        return track_features
 
 
 ## -- Example usage -- ###
 if __name__ == "__main__":
-    import os
+    client_id = "f8576bd3cccf442d853261c942c0e81f"
+    client_secret = "f946df74175c4864a8d0c171c802a4dd"
+    client = SongClient(client_id, client_secret)
 
-    client = SongClient(os.environ.get("OMDB_API_KEY"))
-
-    songs = client.search("guardians")
-
+    search_query = "guardians"
+    songs = client.search(search_query, limit=5)
     for song in songs:
         print(song)
-
-    print(len(songs))
