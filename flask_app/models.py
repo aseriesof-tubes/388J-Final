@@ -21,7 +21,6 @@ class Like(db.Document):
     commenter = db.ReferenceField('User')
     liked = db.StringField()
 
-
 class Review(db.Document):
     commenter = db.ReferenceField('User')
     content = db.StringField(required=True, min_length=5, max_length=500)

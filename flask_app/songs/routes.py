@@ -67,13 +67,11 @@ def song_detail(song_id):
     )
 @songs.route("/like/<song_id>", methods=["POST"])
 def toggle_liked_song(song_id):
-    user = User.objects(id=current_user.id).first()
-    if song_id in user.likes:
-        user.likes.remove(song_id)
-        user.save()
-    else:
-        user.likes.append(song_id)
-        user.save()
+    liked_song = Like(
+        commenter=current_user._get_current_object(),
+        liked=song_id
+    )
+    liked_song.save()
     
     return redirect(url_for("songs.song_detail", song_id=song_id))
 
