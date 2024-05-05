@@ -14,11 +14,11 @@
     <div class="song-title"> {{ song.title }}
       <p class="song-date"> &middot; {{ song.year }}</p>
     </div>
-    <img class="song-img" alt="alt text" src="{{ song.poster_url }}" />
-    <li class="opacity-40 md:px-4"><b>Directed by:</b> {{ song.director }}</li>
-    <li class="opacity-40 md:px-4"><b>Actors:</b> {{ song.actors }}</li>
-    <li class="opacity-40 md:px-4"><b>Genres:</b> {{ song.genres }}</li>
-    <li class="opacity-40 md:px-4"><b>Awards:</b> {{ song.awards }}</li>
+    <img class="song-img" alt="alt text" src="{{ song.album_image_url }}" />
+    <li class="opacity-40 md:px-4"><b>Title:</b> {{ song.title }}</li>
+    <li class="opacity-40 md:px-4"><b>Artists:</b> {{ song.artists }}</li>
+    <li class="opacity-40 md:px-4"><b>Album:</b> {{ song.album }}</li>
+    <li class="opacity-40 md:px-4"><b>Released:</b> {{ song.release_year }}</li>
   </ul>
 
   {# Reviews #}
