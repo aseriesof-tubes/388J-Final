@@ -1,1 +1,6 @@
-**/__pycache__/
+venv/
+*.pyc
+*.DS_Store
+spring2024/venv
+*cache*
+*node_modules/*
