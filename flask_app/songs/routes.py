@@ -65,16 +65,17 @@ def song_detail(song_id):
     return render_template(
         "song_detail.html", form=form, song=result, reviews=reviews
     )
-
-@songs.route("/add_to_liked/<song_id>", methods=["POST"])
-def add_to_liked(song_id):
+@songs.route("/like/<song_id>", methods=["POST"])
+def toggle_liked_song(song_id):
     user = User.objects(id=current_user.id).first()
     if song_id in user.likes:
-        flash("Song already in your liked songs.", "warning")
+        user.likes.remove(song_id)
+        user.save()
     else:
         user.likes.append(song_id)
         user.save()
-        flash("Song added to your liked songs.", "success")
+    
+    return redirect(url_for("songs.song_detail", song_id=song_id))
 
 
 @songs.route("/user/<username>")

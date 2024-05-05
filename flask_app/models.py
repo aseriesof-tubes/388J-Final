@@ -12,6 +12,7 @@ class User(db.Document, UserMixin):
     email = db.EmailField(unique=True, required=True)
     password = db.StringField()
     profile_pic = db.ImageField(required=False)
+    likes = db.ListField() 
 
     # Returns unique string identifying our object
     def get_id(self):
@@ -25,4 +26,3 @@ class Review(db.Document):
     imdb_id = db.StringField(required=True, length=9)
     song_title = db.StringField(required=True, min_length=1, max_length=100)
     image = db.StringField()
-    #Uncomment when other fields are ready for review pictures
