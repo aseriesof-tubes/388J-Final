@@ -66,6 +66,16 @@ def song_detail(song_id):
         "song_detail.html", form=form, song=result, reviews=reviews
     )
 
+@songs.route("/add_to_liked/<song_id>", methods=["POST"])
+def add_to_liked(song_id):
+    user = User.objects(id=current_user.id).first()
+    if song_id in user.likes:
+        flash("Song already in your liked songs.", "warning")
+    else:
+        user.likes.append(song_id)
+        user.save()
+        flash("Song added to your liked songs.", "success")
+
 
 @songs.route("/user/<username>")
 def user_detail(username):
