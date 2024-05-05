@@ -16,17 +16,14 @@
     </div>
     <img class="song-img" alt="alt text" src="{{ song.album_image_url }}" />
 
-    <form action="{{ url_for('songs.toggle_liked_song', song_id=song.track_id) }}" method="POST">
-      <button class="navlink m-5 ml-0 {{ 'hover:!bg-red-500/50 !text-red-400 hover:!text-red-300' if liked else 'hover:!bg-green-500/50 !text-green-400 hover:!text-green-300' }}">
-          {{ '+Add' if not liked else 'Remove' }}
-      </button>
-  </form>
 
     <li class="opacity-40 md:px-4"><b>Title:</b> {{ song.title }}</li>
     <li class="opacity-40 md:px-4"><b>Artists:</b> {{ song.artists }}</li>
     <li class="opacity-40 md:px-4"><b>Album:</b> {{ song.album }}</li>
     <li class="opacity-40 md:px-4"><b>Released:</b> {{ song.release_year }}</li>
   </ul>
+
+  <iframe src="https://open.spotify.com/embed/track/{{ song.track_id }}" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 
   {# Reviews #}
   <div class="reviews">
