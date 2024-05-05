@@ -2,7 +2,7 @@ from flask_login import UserMixin
 from datetime import datetime
 from . import db, login_manager
 
-
+# Don't need to touch
 @login_manager.user_loader
 def load_user(user_id):
     return User.objects(username=user_id).first()
@@ -23,6 +23,6 @@ class Review(db.Document):
     content = db.StringField(required=True, min_length=5, max_length=500)
     date = db.StringField(required=True)
     imdb_id = db.StringField(required=True, length=9)
-    movie_title = db.StringField(required=True, min_length=1, max_length=100)
+    song_title = db.StringField(required=True, min_length=1, max_length=100)
     image = db.StringField()
     #Uncomment when other fields are ready for review pictures

@@ -6,19 +6,19 @@
   </b>
 {% endif %}
 
-{% if movie %}
+{% if song %}
 
-{# Display card for the movie details #}
-<div class="movie-container">
-  <ul class="movie-info">
-    <div class="movie-title"> {{ movie.title }}
-      <p class="movie-date"> &middot; {{ movie.year }}</p>
+{# Display card for the song details #}
+<div class="song-container">
+  <ul class="song-info">
+    <div class="song-title"> {{ song.title }}
+      <p class="song-date"> &middot; {{ song.year }}</p>
     </div>
-    <img class="movie-img" alt="alt text" src="{{ movie.poster_url }}" />
-    <li class="opacity-40 md:px-4"><b>Directed by:</b> {{ movie.director }}</li>
-    <li class="opacity-40 md:px-4"><b>Actors:</b> {{ movie.actors }}</li>
-    <li class="opacity-40 md:px-4"><b>Genres:</b> {{ movie.genres }}</li>
-    <li class="opacity-40 md:px-4"><b>Awards:</b> {{ movie.awards }}</li>
+    <img class="song-img" alt="alt text" src="{{ song.poster_url }}" />
+    <li class="opacity-40 md:px-4"><b>Directed by:</b> {{ song.director }}</li>
+    <li class="opacity-40 md:px-4"><b>Actors:</b> {{ song.actors }}</li>
+    <li class="opacity-40 md:px-4"><b>Genres:</b> {{ song.genres }}</li>
+    <li class="opacity-40 md:px-4"><b>Awards:</b> {{ song.awards }}</li>
   </ul>
 
   {# Reviews #}
@@ -32,7 +32,7 @@
           <img class="h-20 w-20 rounded-lg" src="data:image/png;base64,{{review.image}}" alt="" />
           <div class="w-full">
             <span class="review-date">{{ review.date }}</span>
-            <a class="review-commenter" href="{{ url_for('movies.user_detail', username=review.commenter.username) }}">
+            <a class="review-commenter" href="{{ url_for('songs.user_detail', username=review.commenter.username) }}">
               @{{ review.commenter.username }}
             </a>
             <p class="review-content">{{ review.content }}</p>
@@ -42,7 +42,7 @@
     </ul>
 
     {% if current_user.is_authenticated %}
-      {# Movie review submission form #}
+      {# song review submission form #}
       <div class="container mx-auto">
         <form method="POST" action="" class="review-form">
           {{ form.csrf_token }}

@@ -1,7 +1,7 @@
 import requests
 
 
-class Movie(object):
+class Song(object):
     def __init__(self, omdb_json, detailed=False):
         if detailed:
             self.genres = omdb_json["Genre"]
@@ -13,17 +13,17 @@ class Movie(object):
         self.title = omdb_json["Title"]
         self.year = omdb_json["Year"]
         self.imdb_id = omdb_json["imdbID"]
-        self.type = "Movie"
+        self.type = "song"
         self.poster_url = omdb_json["Poster"]
 
     def __repr__(self):
         return self.title
 
 
-class MovieClient(object):
+class SongClient(object):
     def __init__(self, api_key):
         self.sess = requests.Session()
-        self.base_url = f"http://www.omdbapi.com/?apikey={api_key}&r=json&type=movie&"
+        self.base_url = f"http://www.omdbapi.com/?apikey={api_key}&r=json&type=song&"
 
     def search(self, search_string):
         """
@@ -58,7 +58,7 @@ class MovieClient(object):
         ## We may have more results than are first displayed
         while remaining_results != 0:
             for item_json in search_results_json:
-                result.append(Movie(item_json))
+                result.append(Song(item_json))
                 remaining_results -= len(search_results_json)
             page += 1
             search_url = f"s={search_string}&page={page}"
@@ -69,14 +69,10 @@ class MovieClient(object):
 
         return result
 
-    def retrieve_movie_by_id(self, imdb_id):
-        """
-        Use to obtain a Movie object representing the movie identified by
-        the supplied imdb_id
-        """
-        movie_url = self.base_url + f"i={imdb_id}&plot=full"
+    def retrieve_song_by_id(self, imdb_id):
+        song_url = self.base_url + f"i={imdb_id}&plot=full"
 
-        resp = self.sess.get(movie_url)
+        resp = self.sess.get(song_url)
 
         if resp.status_code != 200:
             raise ValueError(
@@ -88,20 +84,20 @@ class MovieClient(object):
         if data["Response"] == "False":
             raise ValueError(f'[ERROR]: Error retrieving results: \'{data["Error"]}\' ')
 
-        movie = Movie(data, detailed=True)
+        song = song(data, detailed=True)
 
-        return movie
+        return song
 
 
 ## -- Example usage -- ###
 if __name__ == "__main__":
     import os
 
-    client = MovieClient(os.environ.get("OMDB_API_KEY"))
+    client = SongClient(os.environ.get("OMDB_API_KEY"))
 
-    movies = client.search("guardians")
+    songs = client.search("guardians")
 
-    for movie in movies:
-        print(movie)
+    for song in songs:
+        print(song)
 
-    print(len(movies))
+    print(len(songs))

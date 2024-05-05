@@ -10,11 +10,11 @@
   <div class="decoration-container"><div class="decoration"></div></div>
   {% for result in results %}
   <a 
-    href="{{ url_for('movies.movie_detail', movie_id=result.imdb_id) }}"
-    class="group movie-card"
+    href="{{ url_for('songs.song_detail', song_id=result.imdb_id) }}"
+    class="group song-card"
   >
-    <img src="{{ result.poster_url }}" class="movie-card-img" alt="missing" />
-    <h5 class="movie-card-content"> {{ result.title }}
+    <img src="{{ result.poster_url }}" class="song-card-img" alt="missing" />
+    <h5 class="song-card-content"> {{ result.title }}
       <span class="text-neutral-400 font-normal"> &middot; {{ result.year }} </span>
     </h5>
   </a>
