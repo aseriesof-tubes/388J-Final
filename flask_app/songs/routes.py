@@ -5,7 +5,7 @@ from flask_login import current_user
 
 from .. import song_client
 from ..forms import SongReviewForm, SearchForm
-from ..models import User, Review
+from ..models import User, Review, Like
 from ..utils import current_time
 
 songs = Blueprint("songs", __name__)
@@ -82,6 +82,7 @@ def toggle_liked_song(song_id):
 def user_detail(username):
     user = User.objects(username=username).first()
     reviews = Review.objects(commenter=user)
+    likes = Like.objects(commenter=user)
     img = get_b64_img(user.username)
-    return render_template("user_detail.html", user=user, reviews=list(reviews), image=img)
+    return render_template("user_detail.html", user=user, reviews=list(reviews), image=img,likes=list(likes))
     

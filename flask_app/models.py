@@ -12,11 +12,14 @@ class User(db.Document, UserMixin):
     email = db.EmailField(unique=True, required=True)
     password = db.StringField()
     profile_pic = db.ImageField(required=False)
-    likes = db.ListField() 
 
     # Returns unique string identifying our object
     def get_id(self):
         return self.username
+
+class Like(db.Document):
+    commenter = db.ReferenceField('User')
+    liked = db.StringField()
 
 
 class Review(db.Document):
