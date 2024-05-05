@@ -42,7 +42,7 @@ def query_results(query):
 @songs.route("/songs/<song_id>", methods=["GET", "POST"])
 def song_detail(song_id):
     try:
-        result = song_client.retrieve_song_by_id(song_id)
+        result = song_client.get_song_features(song_id)
     except ValueError as e:
         return render_template("song_detail.html", error_msg=str(e))
 
