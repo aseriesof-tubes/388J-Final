@@ -10,7 +10,7 @@
   <div class="decoration-container"><div class="decoration"></div></div>
   {% for result in results %}
   <a 
-    href="{{ url_for('songs.song_detail', song_id=result.imdb_id) }}"
+    href="{{ url_for('songs.song_detail', song_id=result.track_id) }}"
     class="group song-card"
   >
     <img src="{{ result.album_image_url }}" class="song-card-img" alt="missing" />
