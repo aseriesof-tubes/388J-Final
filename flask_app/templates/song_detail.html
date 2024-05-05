@@ -15,6 +15,13 @@
       <p class="song-date"> &middot; {{ song.release_year }}</p>
     </div>
     <img class="song-img" alt="alt text" src="{{ song.album_image_url }}" />
+
+    <form action="{{ url_for('songs.add_to_liked', song_id=song.track_id) }}" method="POST">
+        <button class="navlink m-5 ml-0 !bg-green-400/20 hover:!bg-green-500/50 !text-green-400 hover:!text-green-300">
+            +Add
+        </button>
+    </form>
+
     <li class="opacity-40 md:px-4"><b>Title:</b> {{ song.title }}</li>
     <li class="opacity-40 md:px-4"><b>Artists:</b> {{ song.artists }}</li>
     <li class="opacity-40 md:px-4"><b>Album:</b> {{ song.album }}</li>

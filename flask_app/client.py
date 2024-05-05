@@ -6,7 +6,8 @@ from spotipy.oauth2 import SpotifyClientCredentials
 class Song(object):
     def __init__(self, track_json):
         self.title = track_json["name"]
-        self.artists = [artist["name"] for artist in track_json["artists"]]
+        tists = [artist["name"] for artist in track_json["artists"]]
+        self.artists = ', '.join(tists) if len(tists) > 1 else tists[0]
         self.album = track_json["album"]["name"]
         self.release_year = track_json["album"]["release_date"][:4]
         self.album_image_url = track_json["album"]["images"][0]["url"] if track_json["album"]["images"] else None
