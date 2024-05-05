@@ -42,11 +42,12 @@ class SongClient(object):
         """
         Retrieves detailed audio features for a given track ID.
         """
-        track_features = self.sp.audio_features(track_id)[0]
-        print(track_features)
-        if track_features is None:
-            raise ValueError(f"No features found for track ID '{track_id}'.")
-        return track_features
+        track = self.sp.track(track_id)
+        if track is None:
+            raise ValueError(f"No track found for ID '{track_id}'.")
+
+        song = Song(track)
+        return song
 
 
 ## -- Example usage -- ###
