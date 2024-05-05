@@ -7,24 +7,14 @@
 <div class="container mx-auto w-full md:w-2/3 lg:w-1/3">
     {# User's Profile Picture #}
     <img class="rounded-2xl" src="data:image/png;base64,{{image}}" alt="image">
-    <h1>{{ username }}'s Reviews</h1>
+    {# TODO: Indicate which user's reviews we're looking at #}
+    <h1> this is {{ user.username }}'s reviews</h1>
 
 </div>
 <div class="container mx-auto w-full md:w-2/3 lg:w-1/3">
+    {# TODO: Show all reviews made by the user #}
     {% for review in reviews %}
-    <li class="media review-item">
-            <span class="float-right">
-                <small>{{ review.date }}</small>
-            </span>
-
-            <strong>For: <a href="{{url_for('movies.movie_detail', movie_id = review.imdb_id)}}">
-                {{ review.movie_title}}
-                </a>
-            </strong>
-            <p>
-                {{ review.content}}
-            </p>
-    </li>
+        <h1> {{review.content}} </h1>
     {% endfor %}
 
 </div>

@@ -2,10 +2,12 @@ import base64,io
 from io import BytesIO
 from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
+
 from .. import movie_client
 from ..forms import MovieReviewForm, SearchForm
 from ..models import User, Review
 from ..utils import current_time
+
 movies = Blueprint("movies", __name__)
 """ ************ Helper for pictures uses username to get their profile picture************ """
 def get_b64_img(username):
@@ -13,12 +15,17 @@ def get_b64_img(username):
     bytes_im = io.BytesIO(user.profile_pic.read())
     image = base64.b64encode(bytes_im.getvalue()).decode()
     return image
+
 """ ************ View functions ************ """
+
+
 @movies.route("/", methods=["GET", "POST"])
 def index():
     form = SearchForm()
+
     if form.validate_on_submit():
         return redirect(url_for("movies.query_results", query=form.search_query.data))
+
     return render_template("index.html", form=form)
 
 
@@ -28,6 +35,7 @@ def query_results(query):
         results = movie_client.search(query)
     except ValueError as e:
         return render_template("query.html", error_msg=str(e))
+
     return render_template("query.html", results=results)
 
 
@@ -46,7 +54,6 @@ def movie_detail(movie_id):
             date=current_time(),
             imdb_id=movie_id,
             movie_title=result.title,
-            image = get_b64_img(current_user.username)
         )
 
         review.save()
@@ -64,5 +71,7 @@ def movie_detail(movie_id):
 def user_detail(username):
     user = User.objects(username=username).first()
     reviews = Review.objects(commenter=user)
-    image = get_b64_img(username)
-    return render_template("user_detail.html", username=username, reviews=reviews, image = image)
+    img = get_b64_img(user.username)
+    print(list(reviews)[0])
+    return render_template("user_detail.html", user=user, reviews=list(reviews), image=img)
+    
