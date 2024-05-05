@@ -72,6 +72,5 @@ def user_detail(username):
     user = User.objects(username=username).first()
     reviews = Review.objects(commenter=user)
     img = get_b64_img(user.username)
-    print(list(reviews)[0])
     return render_template("user_detail.html", user=user, reviews=list(reviews), image=img)
     
