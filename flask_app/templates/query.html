@@ -13,9 +13,9 @@
     href="{{ url_for('songs.song_detail', song_id=result.imdb_id) }}"
     class="group song-card"
   >
-    <img src="{{ result.poster_url }}" class="song-card-img" alt="missing" />
+    <img src="{{ result.album_image_url }}" class="song-card-img" alt="missing" />
     <h5 class="song-card-content"> {{ result.title }}
-      <span class="text-neutral-400 font-normal"> &middot; {{ result.year }} </span>
+      <span class="text-neutral-400 font-normal"> &middot; {{ result.releae_year }} </span>
     </h5>
   </a>
   {% endfor %}
