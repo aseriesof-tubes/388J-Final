@@ -1,3 +1,4 @@
+
 {% extends "header.html" %} {% block content %}
 {% if error %}
     <b class="text-red-400" role="alert">
@@ -6,23 +7,34 @@
 {% endif %}
 <div class="container mx-auto w-full md:w-2/3 lg:w-1/3">
     {# User's Profile Picture #}
-    <img class="rounded-2xl" src="data:image/png;base64,{{image}}" alt="image">
-    {# TODO: Indicate which user's reviews we're looking at #}
-    <h1> this is {{ user.username }}'s reviews</h1>
+    <img class="rounded-2xl" src="data:image/png;base64,{{user.image}}" alt="image">
+    <h1>{{ user.username }}'s Reviews</h1>
 
 </div>
 <div class="container mx-auto w-full md:w-2/3 lg:w-1/3">
-    {# TODO: Show all reviews made by the user #}
     {% for review in reviews %}
-        <h1> {{review.content}} </h1>
+    <li class="media review-item">
+            <span class="float-right">
+                <small>{{ review.date }}</small>
+            </span>
+
+            <strong>For: <a href="{{url_for('songs.song_detail', song_id = review.imdb_id)}}">
+                {{ review.song_title}}
+                </a>
+            </strong>
+            <p>
+                {{ review.content}}
+            </p>
+    </li>
     {% endfor %}
     <h1> this is {{ user.username }}'s Liked Songs</h1>
 </div>
 <div class="container mx-auto w-full md:w-2/3 lg:w-1/3">
     {# TODO: Show all reviews made by the user #}
-    {% for review in user.likes %}
-        <h1 href="{{ url_for('songs.song_detail', song_id=result) }}"> {{get_song_features(review)}} </h1>
+    {% for review in likes %}
+        <h1 href="{{ url_for('songs.song_detail', song_id=result[user ]) }}"> {{get_song_features(review)}} </h1>
     {% endfor %}
 
 </div>
+
 {% endblock %}
