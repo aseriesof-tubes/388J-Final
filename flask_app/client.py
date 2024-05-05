@@ -5,10 +5,15 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 class Song(object):
     def __init__(self, track_json):
-        #self.items and this is where track details are stored
-        pass
+        self.title = track_json["name"]
+        self.artists = [artist["name"] for artist in track_json["artists"]]
+        self.album = track_json["album"]["name"]
+        self.release_year = track_json["album"]["release_date"][:4]
+        self.album_image_url = track_json["album"]["images"][0]["url"] if track_json["album"]["images"] else None
+        self.track_id = track_json["id"]
+        self.duration_ms = track_json["duration_ms"]
     def __repr__(self):
-        return self.title
+        return f"{self.title} by {', '.join(self.artists)}"
 
 
 class SongClient(object):
